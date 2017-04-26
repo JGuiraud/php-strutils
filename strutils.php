@@ -1,9 +1,9 @@
 <?php
 
-
 class styleString
 {
     private $str;
+    public $uglify = false;
 
     public function __construct($str)
     {
@@ -15,26 +15,64 @@ class styleString
         return $this->str;
     }
 
+    public function setStr($data)
+    {
+        $this->str = $data;
+    }
+
 
 
     public function bold()
     {
-        echo '<b>'.$this->getStr().'</b>';
+        switch ($this->uglify) {
+            case true:
+                $this->setStr('<b>'.$this->getStr().'</b>');
+                break;
+            default:
+                $this->setStr('<b>'.strip_tags($this->getStr()).'</b>');
+                break;
+        }
     }
     public function italic()
     {
-        echo '<em>'.$this->getStr().'</em>';
-    }
-    public function underline()
-    {
-        echo '<u>'.$this->getStr().'</u>';
+        switch ($this->uglify) {
+            case true:
+                $this->setStr('<em>'.$this->getStr().'</em>');
+                break;
+            default:
+                $this->setStr('<em>'.strip_tags($this->getStr()).'</em>');
+                break;
+        }
     }
     public function capitalise()
     {
-        echo '<span class="capitalise">'.$this->getStr().'</span>';
+        switch ($this->uglify) {
+            case true:
+                $this->setStr('<span class="capitalise">'.$this->getStr().'</span>');
+                break;
+            default:
+                $this->setStr('<span class="capitalise">'.strip_tags($this->getStr()).'</span>');
+                break;
+        }
     }
+    public function underline()
+    {
+        switch ($this->uglify) {
+            case true:
+                $this->setStr('<u>'.$this->getStr().'</u>');
+                break;
+            default:
+                $this->setStr('<u>'.strip_tags($this->getStr()).'</u>');
+                break;
+        }
+    }
+
     public function uglify()
     {
-        echo '<span class="ugly">'.$this->getStr().'</span>';
+        $this->uglify=true;
+        $this->setStr(strip_tags($this->getStr()));
+        $this->bold();
+        $this->italic();
+        $this->underline();
     }
 }
